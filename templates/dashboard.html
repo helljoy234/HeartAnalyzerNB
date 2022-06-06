@@ -1,0 +1,231 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}
+Heart Analyzer
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='dashboard.css')}}">
+{% endblock %}
+
+{% block content %}
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <img src="{{url_for('static',filename='logo.png')}}" width="50" height="40" style="float: left; vertical-align: left; margin-top: 5px; padding-right: 5px;"> <a class="navbar-brand" href="#">Heart Analyzer</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="active"><a href="{{ url_for('dashboard') }}">Analyzer</a></li>
+
+            <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+          </ul>
+         
+        </div>
+      </div>
+    </nav>
+
+    
+
+
+          <body>
+            <section  style="background-color: #d2dee0">
+                <div>
+                    <center>
+                        <h1> Heart AnalyzerNB</h1>
+                    </center>
+                </div>
+        <center>
+                <form method="POST" action="{{url_for('predict')}}">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th width="50%" height="50" colspan="2">Enter Below values to detect risk of Heart Attack
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Age</td>
+                                <td>
+                                    <input type="number" step="1" min="0" max="150" name="Age"
+                                        required="required">
+                                </td>
+                            </tr>
+        
+                            <tr>
+                                <td>Gender</td>
+                                <td>
+                                    Male: <input type="radio" value="1" name="Mygender"> <span>   </span>
+                                    Female: <input type="radio" value="0" name="Mygender">
+                                </td>
+                            </tr>
+        
+                            <tr>
+                                <td>Chest pain</td>
+                                <td>
+        
+                                    <select name="Chestpain" required>
+                                        <option selected disabled>Choose here</option>
+                                        <option value="0">Typical Angina</option>
+                                        <option value="1">Atypical Angina</option>
+                                        <option value="2">Non-Anginal Pain</option>
+                                        <option value="3">Asymptomatic</option>
+                                    </select>
+                                </td>
+                               
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td>Resting Blood Pressure (mm Hg)</td>
+                                <td>
+                                  <input type="number" step="1" min="0" max="1000000" 
+                                    name="bloodpressure" required="required" >
+                                </td>
+                                </tr>
+        
+                                <tr>
+                                    <td>Cholesterol (mg/dl)</td>
+                                    <td>
+                                      <input type="number" step="1" min="0" max="1000000" 
+                                        name="cholestrol" required="required" >
+                                    </td> 
+                                </tr>
+        
+                                
+                            <tr>
+                                <td>Fasting Blood Sugar (mg/dl)</td>
+                                <td>
+        
+                                    <select name="fbloodsugar" required>
+                                        <option selected disabled>Choose here</option>
+                                        <option value="0">Less than equal to 120</option>
+                                        <option value="1"> Greater than 120</option>
+                                    </select>  
+                                </td>
+                                
+                                </td>
+                            </tr>
+        
+                            <tr>
+                                <td>Resting ECG</td>
+                                <td>
+        
+                                    <select name="RestingECG" required>
+                                        <option selected disabled>Choose here</option>
+                                        <option value="0">Normal</option>
+                                        <option value="1">ST-T Wave Abnormalities </option>
+                                        <option value="2">Left Ventricular Hypertrophy</option>
+                                    </select>   
+                                </td>
+                               
+                                
+                            </tr>
+                            <tr>
+                                <td>Maximum Heart Rate Achived</td>
+                                <td>
+                                  <input type="number" step="1" min="0" max="1000000" 
+                                    name="Heartrate" required="required" >
+                                </td> 
+                            </tr>
+        
+                            <tr>
+                                <td>Exercise Include Angina</td>
+                                <td>
+        
+                                    <select name="ExerciseAngina" required>
+                                        <option selected disabled>Choose here</option>
+                                       
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>   
+                                </td>
+                               
+                                </td>
+                            </tr>
+        
+                            <tr>
+                                <td>ST depression induced by exercise relative to rest</td>
+                                <td>
+                                  <input type="number" step="0.1" min="0" max="1000000" 
+                                    name="Stdepression" required="required" >
+                                </td> 
+                            </tr>
+        
+                            <tr>
+                                <td>The slope of the peak exercise ST segment</td>
+                                <td>
+        
+                                    <select name="Slope" required>
+                                        <option selected disabled>Choose here</option>
+                                       
+                                        <option value="0">Unsloping</option>
+                                        <option value="1">Flat</option>
+                                        <option value="2">Downsloping</option>
+                                    </select>   
+                                </td>
+        
+                                
+                            <tr>
+                                <td>Number of major vessels colored by Fluoroscopy</td>
+                                <td>
+        
+                                    <select name="Caa" required>
+                                        <option selected disabled>Choose here</option>
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                    </select>
+                                </td>
+                               
+                                </td>
+                            </tr>
+        
+                            <tr>
+                                <td>Thalassemia</td>
+                                <td>
+        
+                                    <select name="thal" required>
+                                        <option selected disabled>Choose here</option>
+                                       
+                                        <option value="1">Normal</option>
+                                        <option value="2">Fixed Defect</option>
+                                        <option value="3">Reversable Defect</option>
+                                    </select>   
+                                </td>
+        
+        <tfoot>
+           
+            <tr>
+                <td colspan="2" bgcolor="black">
+                   
+            <button  type="reset" value="Reset" class="btn btn-light"
+            style="margin-right: 40px;">Reset</button>
+          <button type="submit" value="predict" class="btn btn-light"> Predict </button>
+          </td>
+          </tr>
+        
+        </tfoot>
+        
+                        </tbody>
+                    </table>
+        
+        
+                </form>
+            </center>
+            </section>
+        
+        </body>
+          
+          
+{% endblock %}
